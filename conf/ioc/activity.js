@@ -1,15 +1,25 @@
 var ioc = {
-		userService : {
-			type : "com.friendship.service.UserService",
+		activityService : {
+			type : "com.friendship.service.ActivityService",
 			args : [ {
 				refer : "dao"
 			} ]
 		},
-		userAction : {
-			type : "com.friendship.web.UserAction",
+		//前台Action
+		activityAction : {
+			type : "com.friendship.web.ActivityAction",
 			fields : {
-				userService : {
-					refer : "userService"
+				activityService : {
+					refer : "activityService"
+				}
+			}
+		},
+		//后台管理Action
+		activityAdminAction : {
+			type : "com.friendship.web.ActivityAdminAction",
+			fields : {
+				activityService : {
+					refer : "activityService"
 				}
 			}
 		}

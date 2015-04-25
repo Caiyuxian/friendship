@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.nutz.dao.pager.Pager;
@@ -16,6 +17,7 @@ import org.nutz.mvc.annotation.Param;
 import com.friendship.model.Activity;
 import com.friendship.model.User;
 import com.friendship.service.ActivityService;
+import com.friendship.util.PageUtil;
 
 @InjectName
 @IocBean
@@ -31,10 +33,28 @@ public class ActivityAction {
 	 */
 	@At
 	@Ok("jsp:jsp.index")
-	public List<Activity> list(@Param("currentPage")int currentPage){
+	public List<Activity> list(@Param("currentPage")int currentPage,@Param("type")String type,
+			HttpServletRequest req){
 		
-		Pager pager = activityService.dao().createPager(currentPage, 6);
-		return activityService.allact(pager);
+		List<Activity> list;
+		if(currentPage==0){
+			currentPage = 1;
+		}
+		Pager pager = activityService.dao().createPager(currentPage, PageUtil.PageSize);
+		/*对带参数检索和布带参数的分别处理*/
+		if(type!=null){
+			list =  activityService.allact(pager,type);
+			req.setAttribute("type", type);
+		}else{
+			list =  activityService.allact(pager,null);
+			req.setAttribute("type", null);
+		}
+		/*将分页信息传到前台*/
+		int count = activityService.getCount(Activity.class,type);
+		int maxPage = activityService.getMaxCount(count,PageUtil.PageSize);
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("maxPage", maxPage);
+		return list;
 	}
 	/**
 	 * 保存活动信息
@@ -59,4 +79,22 @@ public class ActivityAction {
 		act.setUsername(user.getUsername());
 		activityService.dao().insert(act);
 	}
+	@At
+	@Ok("jsp:jsp.mylist")
+	public List<Activity> myAct(@Param("currentPage")int currentPage,HttpServletRequest req,HttpSession session){
+		if(currentPage==0){
+			currentPage = 1;
+		}
+		User u = (User)session.getAttribute("user");
+		Pager pager = activityService.dao().createPager(currentPage, PageUtil.PageSize);
+		List<Activity> list = activityService.getActByUser(u.getId(),pager);	
+			
+		/*将分页信息传到前台*/
+		int count = activityService.getMyCount(u.getId());
+		int maxPage = activityService.getMaxCount(count,PageUtil.PageSize);
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("maxPage", maxPage);
+		
+		return list;
+	} 
 }

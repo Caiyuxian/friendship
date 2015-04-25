@@ -19,8 +19,38 @@ public class ActivityService extends IdNameEntityService<Activity>{
 		super(dao);
 	}
 
-	public List<Activity> allact(Pager pager) {
-		return this.query(Cnd.orderBy().desc("edittime"), pager);
+	public List<Activity> allact(Pager pager, String type) {
+		if(type!=null){
+			return this.query(Cnd.where("acttype", "=", type).desc("edittime"), pager);
+		}else{
+			return this.query(Cnd.orderBy().desc("edittime"), pager);
+		}
+	}
+
+	public int getMaxCount(int count, int pagesize) {
+		if(count%pagesize==0){
+			return count/pagesize;
+		}else{
+			return count/pagesize+1;
+		}
+	}
+
+	public int getCount(Class<Activity> class1, String type) {
+		if(type!=null){
+			List<Activity> actlist = this.query(Cnd.where("acttype", "=", type), null);
+			return actlist.size();
+		}else{
+			return this.count();
+		}
+	}
+
+	public List<Activity> getActByUser(int id,Pager pager) {
+		return this.query(Cnd.where("userid", "=", id), pager);
+	}
+
+	public int getMyCount(int id) {
+		List<Activity> list = this.query(Cnd.where("userid", "=", id), null);
+		return list.size();
 	}
 
 }

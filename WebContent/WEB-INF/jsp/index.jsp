@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.friendship.model.*" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="/WEB-INF/tld/c.tld"%>
 <%@ taglib prefix="fn" uri="/WEB-INF/tld/fn.tld"%>
 <!DOCTYPE HTML>
@@ -210,25 +209,33 @@ $(document).ready(function(){
 		}
 		$("#publishForm").submit();
 	});
+	//搜索
+	$("#shousuo").click(function(){
+		
+		if($("#shousuocontent").val()==""){
+			alert("dd");
+			return false;
+		}
+		$("#souform").submit();
+	});
 });
 </script>
 </head>
-<%-- <% 
-User user= (User)session.getAttribute("user");
-%> --%>
 <body>
 	<header>
 		<div id="headerNav">
-			<a href="list.nut" style="color: #39c;"><i class="icon-home icon-2x"></i>首页</a>
+			<a href="list.nut?currentPage=1" style="color: #39c;"><i class="icon-home icon-2x"></i>首页</a>
 			<a id="aNews" href="javascript:0;"><i class="icon-comments icon-2x"></i>消息</a>
 			<c:if test="${user==null }">
 				<a href="tologin.nut"><i class="icon-user icon-2x"></i>登录</a>
 			</c:if>
 			<c:if test="${user!=null }">
-				<a href="user.html"><i class="icon-user icon-2x"></i><c:out value="${user.username}"></c:out>个人主页</a>
+				<a href="myAct.nut"><i class="icon-user icon-2x"></i><c:out value="${user.username}"></c:out>个人主页</a>
 				<a id="exit" href="logout.nut"><i class="icon-coffee icon-2x"></i>退出</a>
 		</c:if>
-			<input type="text" placeholder="活动类型、时间"><i style="margin-left:-20px;color:#ccc;cursor: pointer;" class="icon-search icon-large"></i>
+			<form  id="souform" action="list.nut?currentPage=1" method="post" style="display: inline;">
+			<input type="text" name="type" id="shousuocontent" placeholder="活动类型"><i id="shousuo" style="margin-left:-20px;color:#ccc;cursor: pointer;" class="icon-search icon-large"></i>
+			</form>
 		</div>
 		<!-- 消息 -->
 		<div id="news">
@@ -296,11 +303,35 @@ User user= (User)session.getAttribute("user");
 			</c:forEach>
 		</div>
 		<div class="dibu" align="center">
-			<a href="">首页</a> 
-			<%-- <c:if test="${1==1}"><a href="">上一页</a></c:if>
-			<c:if test="${1==1}"><a href="">下一页</a></c:if> --%>
-			<a href="">末页</a>
-			<br/><h6>第1页|共2页</h6>
+			<!-- 1 -->
+			<c:if test="${type!=null }">
+				<a href="list.nut?currentPage=1&type=${type}">首页</a>&nbsp;&nbsp;
+			</c:if>
+			<c:if test="${type==null }">
+				<a href="list.nut?currentPage=1">首页</a>&nbsp;&nbsp;
+			</c:if>
+			<!-- 2 -->
+			<c:if test="${type!=null }">
+				<c:if test="${currentPage!=1&&currentPage!=null}"><a href="list.nut?currentPage=${currentPage-1}&type=${type}">上一页&nbsp;&nbsp;</a></c:if>
+			</c:if>
+			<c:if test="${type==null }">
+				<c:if test="${currentPage!=1&&currentPage!=null}"><a href="list.nut?currentPage=${currentPage-1}">上一页&nbsp;&nbsp;</a></c:if>
+			</c:if>
+			<!-- 3 -->
+			<c:if test="${type!=null }">
+				<c:if test="${currentPage!=maxPage&&currentPage!=null}"><a href="list.nut?currentPage=${currentPage+1}&type=${type}">下一页&nbsp;&nbsp;</a></c:if>
+			</c:if>
+			<c:if test="${type==null }">
+				<c:if test="${currentPage!=maxPage&&currentPage!=null}"><a href="list.nut?currentPage=${currentPage+1}">下一页&nbsp;&nbsp;</a></c:if>
+			</c:if>
+			<!-- 4 -->
+			<c:if test="${type!=null }">
+				<a href="list.nut?currentPage=${maxPage}&type=${type}">末页</a>
+			</c:if>
+			<c:if test="${type==null }">
+				<a href="list.nut?currentPage=${maxPage}">末页</a>
+			</c:if>
+			<h6 style="font-size:14px;">第${currentPage}页|共${maxPage }页</h6>
 		</div>
 	</div>
 <footer>
