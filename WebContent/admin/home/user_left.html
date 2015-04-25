@@ -1,0 +1,124 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>广东省制冷协会后台管理left</title>
+<style type="text/css">
+<!--
+body {
+	margin: 0px;
+	background-image: url(../../images/admin/left.gif);
+}
+-->
+</style>
+<link href="../../css/css.css" rel="stylesheet" type="text/css" />
+</head>
+<SCRIPT language=JavaScript>
+function tupian(idt){
+    var nametu="xiaotu"+idt;
+    var tp = document.getElementById(nametu);
+    tp.src="../../images/admin/ico05.gif";//Í¼Æ¬ico04Îª°×É«µÄÕý·½ÐÎ
+	
+	for(var i=1;i<30;i++)
+	{
+	  
+	  var nametu2="xiaotu"+i;
+	  if(i!=idt*1)
+	  {
+	    var tp2=document.getElementById('xiaotu'+i);
+		if(tp2!=undefined)
+	    {tp2.src="../../images/admin/ico06.gif";}//Í¼Æ¬ico06ÎªÀ¶É«µÄÕý·½ÐÎ
+	  }
+	}
+}
+
+function list(idstr){//8
+	var name1="subtree"+idstr;
+	var name2="img"+idstr;
+	var objectobj=document.all(name1);
+	var imgobj=document.all(name2);
+	
+	
+	// alert(imgobj);
+	
+	if(objectobj.style.display=="none"){
+		for(i=1;i<10;i++){
+			var name3="img"+i;
+			var name="subtree"+i;
+			var o=document.all(name);
+			if(o!=undefined){
+				o.style.display="none";
+				var image=document.all(name3);
+				//alert(image);
+				image.src="../../images/admin/ico04.gif";
+			}
+		}
+		objectobj.style.display="";
+		imgobj.src="../../images/admin/ico03.gif";
+	}
+	else{
+		objectobj.style.display="none";
+		imgobj.src="../../images/admin/ico04.gif";
+	}
+}
+
+</SCRIPT>
+
+<body>
+<table width="198" border="0" cellpadding="0" cellspacing="0" class="left-table01">
+  <tr>
+    <TD>
+		<table width="100%" border="0" cellpadding="0" cellspacing="0">
+		  <tr>
+			<td width="207" height="55" background="../../images/admin/nav01.gif">
+				<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
+				  <tr>
+					<td width="25%" rowspan="2"><img src="../../images/admin/ico02.gif" width="35" height="35" /></td>
+					<td width="75%" height="22" class="left-font01">您好！<span class="left-font02">尊敬的管理员</span></td>
+				  </tr>
+				  
+				</table>
+			</td>
+		  </tr>
+		</table>
+		<!--      -->
+		<TABLE width="100%" border="0" cellpadding="0" cellspacing="0" class="left-table03">
+          <tr>
+            <td height="29">
+				<table width="85%" border="0" align="center" cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="8%"><img name="img8" id="img8" src="../../images/admin/ico04.gif" width="8" height="11" /></td>
+						<td width="92%">
+								<a href="/friendship/admin/userlist.nut?currentPage=1" target="mainFrame" class="left-font03">用户管理</a></td>
+					</tr>
+				</table>
+			</td>
+          </tr>		  
+        </TABLE>
+		
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="left-table03">
+          <tr>
+            <td height="29"><table width="85%" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="8%"><img name="img5" id="img5" src="../../images/admin/ico04.gif" width="8" height="11" /></td>
+                  <td width="92%"><a href="/friendship/admin/actlist.nut?currentPage=1" target="mainFrame" class="left-font03">用户发布活动管理</a></td>
+                </tr>
+            </table></td>
+          </tr>
+      </table>
+
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left-table03">
+          <tr>
+            <td height="29"><table width="85%" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="8%"><img name="img5" id="img5" src="../../images/admin/ico04.gif" width="8" height="11" /></td>
+                  <td width="92%"><a href="../subpage/admin2.jsp" target="mainFrame" class="left-font03">管理员公告</a></td>
+                </tr>
+            </table></td>
+          </tr>
+      </table>	
+	  </TD>
+  </tr>
+  
+</table>
+</body>
+</html>
