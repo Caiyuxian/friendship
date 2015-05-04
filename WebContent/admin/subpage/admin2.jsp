@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="gb2312"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ĞÂÎÅ±à¼­</title>
+<title>æ–°é—»ç¼–è¾‘</title>
 <style type="text/css">
   body {
   margin-left: 0px;
@@ -42,18 +42,18 @@ div,table,p,form{
 	</head>
 	<body>
 		<div style="background-color:#16ADD8;color:white;height:30px;font-size:14px;line-height:30px;">
-    <p>´óÑ§³Ç¸ßĞ£ÁªÒêÆ½Ì¨¹ÜÀí>¹ÜÀíÔ±¹«¸æ</p>
+    <p>å¤§å­¦åŸé«˜æ ¡è”è°Šå¹³å°ç®¡ç†>ç®¡ç†å‘˜å…¬å‘Š</p>
   </div>
   <div class="article">
     <form action="/University_Followship/servlet/report" method="post">
     
       <table>
         <tr>
-          <td>±êÌâ£º</td>
+          <td>æ ‡é¢˜ï¼š</td>
           <td><input name="report_name" type="text" maxlength="26" id="title" style="width:100%"/></td>
         </tr>
         <tr>
-          <td>ÄÚÈİ£º</td>
+          <td>å†…å®¹ï¼š</td>
           <td>
             <textarea name="content" style="width:700px;height:200px;visibility:hidden;"></textarea>
           </td>
@@ -61,7 +61,7 @@ div,table,p,form{
         <tr>
           <td></td>
           <td>
-            <input type="submit" class="button" value="Ìá½»" style="float:right;" /> 
+            <input type="submit" class="button" value="æäº¤" style="float:right;" /> 
           </td>
         </tr>
       </table>

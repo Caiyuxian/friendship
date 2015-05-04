@@ -1,4 +1,5 @@
-<%@ page language="java" import="java.util.*" pageEncoding="gb2312"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="/WEB-INF/tld/c.tld" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="../../js/jquery-1.11.1.min.js"></script>
-<title>´óÑ§³Ç¸ßĞ£ÁªÒêÆ½Ì¨ºóÌ¨¹ÜÀí</title>
+<title>å¤§å­¦åŸé«˜æ ¡è”è°Šå¹³å°åå°ç®¡ç†</title>
 <style type="text/css">
 body,div,p,img,form,input,ul,li,a{
   margin: 0;
@@ -104,16 +105,23 @@ $(document).ready(function(){
             </table>
         </div>
       </div> 
-      <!-- µÇÂ½±íµ¥ -->
-      <form id="adminForm" action="/University_Followship/servlet/admin_pass">
+      <!-- ç™»é™†è¡¨å• -->
+      <form id="adminForm" method="post" action="${base }/admin/login.nut">
         <div id="formDiv">
-          <p>¹ÜÀíÔ±ÕËºÅ£º</p>
-          <input name="admin_name" type="text">
-          <p>µÇÂ½ÃÜÂë£º</p>
-          <input name="admin_password" type="password">
+          <p>ç®¡ç†å‘˜è´¦å·ï¼š</p>
+          <input name="username" type="text">
+          <p>ç™»é™†å¯†ç ï¼š</p>
+          <input name="password" type="password">
         </div>
         <a id="enter" href="javascript:;" class="enter"></a>
-        <div style="clear:both;height:20px;"></div>
+        <div style="clear:both;height:20px;padding-left:336px;">
+         
+         	<c:if test="${error!=null}">
+         	<span style="color:red" align="center">
+         	**${error }</span>
+         	</c:if>
+         
+        </div>
       </form>
     </div>
     

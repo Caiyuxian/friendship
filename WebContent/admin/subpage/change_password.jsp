@@ -1,3 +1,4 @@
+<%@ page language="java" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -45,13 +46,19 @@ input{
 <script type="text/javascript">
 $(document).ready(function(){
   $("#passwordSure").click(function(){
+	  
+	if($("#newPassword").val()==""|| $("#re_password").val()==""||$("#oldPassword").val()==""){
+		alert("请填写所有信息");
+		return false;
+	}  
     if($("#newPassword").val() != $("#re_password").val()){
       alert("两次密码不一致！");
     }else{
-      $.post("/University_Followship/servlet/alter_admPass",
+      $.post("/friendship/admin/changePass.nut",
       {
-      	oldPassword:$("#oldPassword").val(),
-      	newPassword:$("#newPassword").val()
+    	id:$("#id").val(),
+      	oldpass:$("#oldPassword").val(),
+      	newpass:$("#newPassword").val()
       },
       function(data){
       console.log(data)
@@ -73,6 +80,7 @@ $(document).ready(function(){
   <div class="main">
   <form id="changeForm">
     <table>
+	  <input type="hidden" id="id"name="id" value="${admin.id}"/>
       <tr>
         <td width="40%">旧密码：</td>
         <td width="60%"><input name="oldPassword" id="oldPassword" type="password" size="20" /></td>

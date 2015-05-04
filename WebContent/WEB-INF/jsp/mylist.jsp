@@ -241,6 +241,33 @@ $(document).ready(function(){
 		$("#divPass").fadeIn();
 		return false;
 	});
+	//修改密码提交
+	$("#changepassword").click(function(){
+		if($("#newpass").val()!=$("#newpass1").val()){
+			alert("两次密码不一致");
+			return false;
+		}
+		$.post("modifyPass.nut",
+			{
+				userid:$("#userid").val(),
+				oldPass:$("#oldpass").val(),
+				newPass:$("#newpass").val(),
+			},
+			function(data){
+				if(data==0){
+					alert("旧密码错误，请重新输入");
+				}else if(data==1){
+					console.log("1")
+					$("#divPass").hide();
+					console.log("2")
+					$("#bg").hide();
+					console.log("3")
+					alert("密码修改成功");
+			
+				}
+			}
+		);
+	});
 	//编辑活动内容
 	$(".edit").click(function(){
 		$("#bg").fadeIn();
@@ -346,7 +373,7 @@ $(document).ready(function(){
 				<c:if test="${currentPage!=maxPage&&currentPage!=null}"><a href="myAct.nut?currentPage=${currentPage+1}">下一页&nbsp;&nbsp;</a></c:if>
 				<a href="myAct.nut?currentPage=${maxPage}">末页</a>
 			<h6 style="font-size:14px;">第${currentPage}页|共${maxPage }页</h6>
-		</div>
+			</div>
 		</div>
 		<!-- 编辑内容框 -->
 		<div id="divEdit">
@@ -379,17 +406,18 @@ $(document).ready(function(){
 		</div>
 		<!-- 修改资料框 -->
 		<form id="changeInfor" action="modifyInfo.nut">
-			<input type="hidden" name="userid" value="${user.id}">
+			<input type="hidden" id="userid" name="userid" value="${user.id}">
 			<input type="text" id="phone"name="phone" placeholder="联系方式">
 			<input type="text" id="email"name="email" placeholder="邮箱">
 			<a id="changeInforSure"href="javascript:0;">确认</a>
 		</form>
 		<!-- 修改密码 -->
 		<form id="divPass">
-			<input type="text" placeholder="原始密码" >
-			<input type="text" placeholder="新密码">
-			<input type="text" placeholder="确认密码">
-			<a href="javascript:0;">确认</a>
+			<input type="hidden" id="userid" name="userid" value="${user.id}">
+			<input type="password" id="oldpass" placeholder="原始密码" >
+			<input type="password" id="newpass" placeholder="新密码">
+			<input type="password" id="newpass1" placeholder="确认密码">
+			<a id="changepassword"href="javascript:0;">确认</a>
 		</form>
 	</div>
 <footer>

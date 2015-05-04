@@ -111,15 +111,15 @@ public class UserAction {
 	 */
 	@At
 	@Ok("json")
-	public void modifyPass(@Param("userid")int id,@Param("oldPass")String oldPass,
+	public int modifyPass(@Param("userid")int id,@Param("oldPass")String oldPass,
 			@Param("newPass")String newPass,HttpServletResponse resp) throws IOException{
 		User u = userService.fetch(id);
 		if(!MD5.toMD5(oldPass).equals(u.getPassword())){
-			resp.getWriter().write('0');
+			return 0;
 		}else{
 			u.setPassword(MD5.toMD5(newPass));
 			userService.dao().update(u);
-			resp.getWriter().write('1');
+			return 1;
 		}
 	}
 }
