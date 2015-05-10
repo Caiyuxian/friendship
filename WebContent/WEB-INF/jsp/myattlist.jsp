@@ -191,6 +191,13 @@ header{
 	height: 200px;
 	padding-top: 10px;
 }
+/*底部*/
+.dibu{
+	font-weight: bold;
+ 	font-size: 18px;
+	color:#000000;
+	font-family:宋体;
+}
 /*尾部*/
 footer{
 	margin-top: 10px;
@@ -202,13 +209,6 @@ footer{
 footer a{
 	text-decoration: none;
 	color: #808080;
-}
-/*底部*/
-.dibu{
-	font-weight: bold;
- 	font-size: 18px;
-	color:#000000;
-	font-family:宋体;
 }
 #bg{
 	position: absolute;
@@ -223,7 +223,7 @@ footer a{
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-	// 消息
+
 	$("#aNews").click(function(){
 		if($("#news").css("display") == "block"){
 			$("#news").fadeOut();
@@ -328,36 +328,29 @@ $(document).ready(function(){
 	<%@include file="/commons/header.jsp" %>
 	<div style="height:60px;"></div>
 	<div id="main">
-		<!-- 已发布活动 -->
-		<div id="divPublish" style="float:left;">
-		<c:choose>
-			<c:when test="${obj eq null }">
-				<div style="margin-left :200px;font-size:18px ;" >你还未发布任何活动！</div>
-			</c:when>
-			<c:otherwise>
-				<c:forEach items="${obj}" var="myact" varStatus="my">
-					<div class="hadPubish">
-					<p><i class="icon-info-sign icon-2x"></i>已发布活动</p>
-					<p style="padding-left:30px;">活动简介：在${myact.edittime }发布了${myact.content }</p>
-					<div class="activity">活动主要介绍内容:  时间：${myact.activitytime } 地点：${myact.address }  类型：${myact.acttype }</div>
-					<div style="float:right;">
-						<a href="javascript:0;" class="edit"><i class="icon-edit icon-2x"></i>编辑</a>
-						<input type="hidden" value=${myact.id }>
-						<a href="javascript:0;" class="delete"><i class=" icon-trash icon-2x"></i>删除</a>
-					</div>
-					<div style="clear:both;"></div>
-				</div>
-				</c:forEach>
-				<div class="dibu" align="center">
-					<a href="myAct.nut?currentPage=1">首页</a>&nbsp;&nbsp;
-					<c:if test="${currentPage!=1&&currentPage!=null}"><a href="myAct.nut?currentPage=${currentPage-1}">上一页&nbsp;&nbsp;</a></c:if>
-					<c:if test="${currentPage!=maxPage&&currentPage!=null}"><a href="myAct.nut?currentPage=${currentPage+1}">下一页&nbsp;&nbsp;</a></c:if>
-					<a href="myAct.nut?currentPage=${maxPage}">末页</a>
+		<!-- 已参加活动 -->
+		<div id="divJion" style="float:left">
+			<c:if test="${obj == null }">
+				<div style="margin-left :200px;font-size:18px ;" >你还未参加任何活动！</div>
+			</c:if>
+			<c:if test="${obj != null }">
+			<c:forEach items="${obj }" var="attendAct" varStatus="ad">
+			<div class="hadJoin">
+				<p><i class="icon-info-sign icon-2x"></i>已参加活动</p>
+				<p style="padding-left:30px;">活动简介：${attendAct.username }发布的${attendAct.content }活动</p>
+				<div class="activity">活动主要介绍内容:  时间：${attendAct.activitytime }  地点：${attendAct.address }  类型：${attendAct.acttype }</div>
+				<div style="clear:both;"></div>
+			</div>
+			</c:forEach>
+			<div class="dibu" align="center">
+					<a href="myattact.nut?currentPage=1">首页</a>&nbsp;&nbsp;
+					<c:if test="${currentPage!=1&&currentPage!=null}"><a href="myattact.nut?currentPage=${currentPage-1}">上一页&nbsp;&nbsp;</a></c:if>
+					<c:if test="${currentPage!=maxPage&&currentPage!=null}"><a href="myattact.nut?currentPage=${currentPage+1}">下一页&nbsp;&nbsp;</a></c:if>
+					<a href="myattact.nut?currentPage=${maxPage}">末页</a>
 				<h6 style="font-size:14px;">第${currentPage}页|共${maxPage }页</h6>
 				</div>
-			</c:otherwise>
-		</c:choose>
-		</div>
+			</c:if>
+		</div> 
 		<!-- 编辑内容框 -->
 		<div id="divEdit">
 			<p style="font-family: '隶书';font-size:20px;color:#39c;">编辑活动内容</p>
@@ -387,7 +380,7 @@ $(document).ready(function(){
 			<a id="revise" href="javascript:0;"><i class=" icon-wrench icon-2x"></i>修改资料</a>
 			<a id="changePass" href="javascript:0;"><i class="icon-lock icon-2x"></i>修改密码</a>
 			<a id="iPublish" href="${base }/base/myAct.nut"><i class="icon-leaf icon-2x"></i>我发布的活动</a>
-			<a id="iJoin" href="${base}/base/myattact.nut"><i class="icon-retweet icon-2x"></i>我参加的活动</a>
+			<a id="iJoin" href="${base }/base/myattact.nut"><i class="icon-retweet icon-2x"></i>我参加的活动</a>
 		</div>
 		<!-- 修改资料框 -->
 		<form id="changeInfor" action="modifyInfo.nut">

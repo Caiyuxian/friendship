@@ -2,8 +2,11 @@ package com.friendship.model;
 
 
 
+import java.util.List;
+
 import org.nutz.dao.entity.annotation.Column;
 import org.nutz.dao.entity.annotation.Id;
+import org.nutz.dao.entity.annotation.Many;
 import org.nutz.dao.entity.annotation.One;
 import org.nutz.dao.entity.annotation.Table;
 
@@ -33,6 +36,15 @@ public class Activity {
 	private int userid;			//发布用户id
 	@One(target=User.class,field="userid")
 	private User user;			//发布用户
+	@Many(target=Reply.class,field="actid")
+	private List<Reply> replylist;
+	
+	public List<Reply> getReplylist() {
+		return replylist;
+	}
+	public void setReplylist(List<Reply> replylist) {
+		this.replylist = replylist;
+	}
 	public int getId() {
 		return id;
 	}

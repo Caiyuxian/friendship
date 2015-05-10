@@ -62,7 +62,7 @@ window.onload=function(){
           <td height="35" width="40%" bgcolor="#E0FCFA" >活动内容</td>
           <td height="35" width="15%" bgcolor="#E0FCFA" >发布时间</td>
           <td height="35" width="10%" bgcolor="#E0FCFA" >发布人</td>
-          <td height="35" width="10%" bgcolor="#E0FCFA" >操作</td>
+      <!--     <td height="35" width="10%" bgcolor="#E0FCFA" >操作</td> -->
         </tr>
         <!--  -->
 		<c:forEach items="${obj}" var="act" varStatus="sta">
@@ -71,10 +71,10 @@ window.onload=function(){
           <td height="35" width="35%" bgcolor="#FFFFFF" >${act.content }</td>
           <td height="35" width="20%" bgcolor="#FFFFFF" >${act.edittime }</td>
           <td height="35" width="15%" bgcolor="#FFFFFF" >${act.username }</td>
-          <td height="35" width="30%" bgcolor="#FFFFFF" >
+         <%--  <td height="35" width="30%" bgcolor="#FFFFFF" >
             <a class="announceA" href="javascript:;">删除</a>
             <input type="hidden" value=${act.id }/>
-          </td>
+          </td> --%>
         </tr> 
     	</c:forEach>
         <!--  -->

@@ -40,4 +40,20 @@ public class UserAdminAction {
 		req.setAttribute("maxPage", maxPage);
 		return list;
 	}
+	
+	@At
+	@Ok("redirect:/admin/userlist.nut")
+	public void ManagerAccount(@Param("id")int id,@Param("type")String type){
+		User u = userService.fetch(id);
+		//封号，前台传过来的状态值为1
+		if(type.equals("1")){
+			u.setType(0);
+			userService.dao().update(u);
+		}
+		//解封，前天传过来的状态值为0
+		else if(type.equals("0")){
+			u.setType(1);
+			userService.dao().update(u);
+		}
+	}
 }

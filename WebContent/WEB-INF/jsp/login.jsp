@@ -113,6 +113,8 @@ $(document).ready(function(){
 			}
 			else if(data == '"0"'){
 				alert("密码错误！");
+			}else if(data=='"2"'){
+				alert("可能你的帐号发步了违反规定的内容，目前帐号已经被封，有什么问题请联系站长");
 			}
 			else{
 				window.location.href = "list.nut";
@@ -125,7 +127,25 @@ $(document).ready(function(){
 			$("#register").fadeIn();
 		});
 	});
-	
+	//检验用户名是否已经注册
+	$("#username").blur(function(){
+		
+	 	if($("#username").val()=="")
+			return false;
+		$.post("isUserExit.nut",
+		{
+			username:$("#username").val()
+		},
+		function(data){
+			var div = document.getElementById("isUserExit");
+			if(data=="true"){				
+				div.innerHTML = "**此用户名已经被注册";
+				$("#username").focus();
+			}else if(data=="false"){
+				div.innerHTML = "此用户名可用";
+			}
+		}) 
+	});
 	$("#sure").click(function(){
 		//输入框不能为空
 		var length = $("#register input").length;
@@ -159,8 +179,8 @@ $(document).ready(function(){
 		$("#registerForm").submit();
 		}
 		
-	})
-})
+	});
+});
 </script>
 </head>
 <body>
@@ -185,6 +205,7 @@ $(document).ready(function(){
 				<input name = "user_grade" id="grade" type="text" placeholder="年级">
 				<input name = "user_class" id="class" type="text" placeholder="班级"> -->
 				<input name = "username" id="username" type="text" placeholder="昵称">
+				<div id="isUserExit"style="clear:both;padding-left:30px;color:red;"></div>
 				<input name = "phone" id="connect" type="text" placeholder="联系方式(手机号码)">
 				<input name = "email" id="mail" type="text" placeholder="邮箱（登陆名为邮箱名）">
 				<input name = "password" id="password" type="password" placeholder="登陆密码">

@@ -5,12 +5,27 @@ var ioc = {
 				refer : "dao"
 			} ]
 		},
+		useractivityService : {
+			type : "com.friendship.service.UseractivityService",
+			args : [ {
+				refer : "dao"
+			} ]
+		},
 		//前台Action
 		activityAction : {
 			type : "com.friendship.web.ActivityAction",
 			fields : {
 				activityService : {
 					refer : "activityService"
+				},
+				useractivityService : {
+					refer : "useractivityService"
+				},
+				userService:{
+					refer:"userService"
+				},
+				replyService:{
+					refer:"replyService"
 				}
 			}
 		},

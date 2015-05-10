@@ -50,12 +50,16 @@ public class UserAction {
 		List<User> userlist = userService.alluser();
 		for(User u:userlist){
 			if(u.getUsername().equals(username)|u.getEmail().equals(username)){
-				if(u.getPassword().equals(MD5.toMD5(password))){
-					session.setAttribute("user", u);
-					return "2";
+				if(u.getType()==1){
+					if(u.getPassword().equals(MD5.toMD5(password))){
+						session.setAttribute("user", u);
+						return "3";
+					}else{
+						return "0";
+					}
 				}else{
-					return "0";
-				}
+					return "2";
+				}			
 			}
 		}
 		return "1";
@@ -68,7 +72,22 @@ public class UserAction {
 	public void tologin(){
 		
 	}
-	
+	/**
+	 * 检验用户名是否已经存在，存在的话不允许再此使用该用户名注册
+	 * @param username	用户名
+	 * @return true 用户名已被使用   false：用户名不存在
+	 */
+	@At
+	@Ok("json")
+	public boolean isUserExit(@Param("username")String username){
+		List<User> userlist = userService.alluser();
+		for(User u :userlist){
+			if(u.getUsername().equals(username)){
+				return true;
+			}
+		}
+		return false;
+	}
 	/**
 	 * 用户注册
 	 * @param username	用户名
@@ -85,6 +104,7 @@ public class UserAction {
 		u.setEmail(email);
 		u.setPhone(phone);
 		u.setPassword(MD5.toMD5(password));
+		u.setType(1);
 		userService.dao().insert(u);
 	}
 	/**

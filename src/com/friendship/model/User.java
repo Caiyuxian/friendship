@@ -27,6 +27,14 @@ public class User {
 	private String phone;		//联系方式
 	@Column
 	private String email;		//邮箱
+	@Column
+	private int type;		//是否可用  0：不可用  1：可用
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
 	@Many(target=Activity.class,field="userid")
 	private List<Activity> actList;
 	

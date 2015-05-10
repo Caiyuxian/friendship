@@ -30,12 +30,12 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 -->
 </style>
 <script type="text/javascript">
-$(document).ready(function(){
+/* $(document).ready(function(){
   $(".right-button08").click(function(){
-    var user_id = $(this).parent().parent().find("td").eq(1).text();
+    var user_id = $(this).prev().val();
     $.post("/University_Followship/servlet/delete_user",
     {
-    	user_mail:user_id
+    	id:user_id
     },
     function(data){
     	if(data ==1){
@@ -53,7 +53,7 @@ window.onload=function(){
  {
  location.href=location.href+"?xyz="+Math.random();
  }
-}
+} */
 </script>
 </head>
 <body>
@@ -91,18 +91,20 @@ window.onload=function(){
                     <td height="20" width="10%" bgcolor="#E0FCFA">操作</td>
                   </tr>
                   <!-- 动态 -->
-				  <c:forEach items="${obj }" var="user" varStatus="ur">                
+				  <c:forEach items="${obj}" var="user" varStatus="ur">                
                   <tr align="center">
                     <td bgcolor="#FFFFFF">${ur.index+1 }</td>
                     <td bgcolor="#FFFFFF">${user.username }</td>
                     <td bgcolor="#FFFFFF">${user.email }</td>
                     <td bgcolor="#FFFFFF">${user.phone }</td>
                     <td bgcolor="#FFFFFF" align="center">
-                      <input name="Submit3" type="button" class="right-button08" value="删除" />
+                   	<c:if test="${user.type==1 }"><a href="${base }/admin/ManagerAccount.nut?id=${user.id }&type=1">封号</a></c:if>
+                 	<c:if test="${user.type==0 }"><a href="${base }/admin/ManagerAccount.nut?id=${user.id }&type=0">解封</a></c:if>
                     </td>
                   </tr>
               	 </c:forEach>	  
                   <!--  -->
+                 
                 </table></td>
               </tr>
             </table></td>

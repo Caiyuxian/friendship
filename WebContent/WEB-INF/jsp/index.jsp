@@ -32,6 +32,38 @@ header{
 	margin-right:5px;
 	margin-left:5px;
 }
+/*评论框*/
+#comment{
+	position:absolute;
+	z-index:2;
+	background:white;
+	width:480px;
+	height:250px;
+	top:50%;
+	left:50%;
+	margin:-150px 0 0 -250px;
+	border-radius:25px;
+	padding:10px;
+	display:none;
+}
+#comment textarea{
+	width: 450px;
+	margin-left: 10px;
+	margin-top: 10px;
+	padding: 5px;
+	height: 150px;
+	resize:none;
+}
+#comment a{
+	display:inline-block;
+	text-decoration:none;
+	color:white;
+	width:50px;
+	height:30px;
+	line-height:30px;
+	background:#39c;
+	border-radius:4px;
+}
 #headerNav{
 	width: 960px;
 	margin: 0 auto;
@@ -106,6 +138,10 @@ header{
 	color: #39c;
 	font-size: 14px;
 }
+.answer{
+	background:white;
+	padding:10px;
+}
 /*消息*/
 #news{
 	width: 300px;
@@ -165,7 +201,16 @@ footer a{
 	text-decoration: none;
 	color: #808080;
 }
-
+#bg{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: 0.5;
+	display: none;
+}
 /*底部*/
 .dibu{
 	font-weight: bold;
@@ -189,6 +234,30 @@ $(document).ready(function(){
 		$("#news").fadeOut();
 		return false;
 	});
+	//参加活动
+	$(".wantJoin").click(function(){
+		if($("#username").val()== ""){
+			alert("你还没有登录，请先登录");
+			return false;
+		}
+		if($(this).css("color") == "rgb(51, 153, 204)"){
+			$(this).css("color","#FE9660");
+			$.post("${base}/base/attendAct.nut",
+			{
+				userid:$("#userid").val(),
+				actid:$(this).parent().find("input").val(),
+			},
+			function(data){
+				if(data==1){
+					alert("已经发送邮件通知该用户！")
+				}else if(data==0){
+					alert("邮件发送失败！");
+				}else if(data==2){
+					alert("您已经点击参加，请勿重复操作！");
+				}
+			}) 
+		}
+	})
 	//发布活动
 	$("#aPublish").click(function(){
 		if($("#username").val()== ""){
@@ -218,42 +287,35 @@ $(document).ready(function(){
 		}
 		$("#souform").submit();
 	});
+	//评论
+	$(".wantCom").click(function(){
+		if($("#username").val()==""){
+			alert("您还未登录，请先登录！");
+			return false;
+		}
+		$("#bg").css("height",$("html").height());
+		$("#bg").fadeIn();
+		var sTop=$(window).scrollTop();
+		var cTop=$(window).height()/2;
+		$("#comment").css(
+				"top",sTop+cTop+"px"
+		).fadeIn();
+		var val = $(this).next().attr("value");
+		$("#commentInput").attr("value",val);
+	})
+	$("#sure").click(function(){
+		$("#commentForm").submit();
+		$("#comment").fadeOut();
+	})
+	$("#quit").click(function(){
+		$("#bg").fadeOut();
+		$("#comment").fadeOut();
+	})
 });
 </script>
 </head>
 <body>
-	<header>
-		<div id="headerNav">
-			<a href="list.nut?currentPage=1" style="color: #39c;"><i class="icon-home icon-2x"></i>首页</a>
-			<a id="aNews" href="javascript:0;"><i class="icon-comments icon-2x"></i>消息</a>
-			<c:if test="${user==null }">
-				<a href="tologin.nut"><i class="icon-user icon-2x"></i>登录</a>
-			</c:if>
-			<c:if test="${user!=null }">
-				<a href="myAct.nut"><i class="icon-user icon-2x"></i><c:out value="${user.username}"></c:out>个人主页</a>
-				<a id="exit" href="logout.nut"><i class="icon-coffee icon-2x"></i>退出</a>
-		</c:if>
-			<form  id="souform" action="list.nut?currentPage=1" method="post" style="display: inline;">
-			<input type="text" name="type" id="shousuocontent" placeholder="活动类型"><i id="shousuo" style="margin-left:-20px;color:#ccc;cursor: pointer;" class="icon-search icon-large"></i>
-			</form>
-		</div>
-		<!-- 消息 -->
-		<div id="news">
-			<div id="newsTop"></div>
-			<div class="jioner">
-				<i class="icon-comment-alt"></i>
-				<span>参加者一</span>
-				<i class="icon-exchange"></i>
-				<select>
-					<option>同意参加</option>
-					<option>删除该参与者</option>
-				</select>
-			</div>
-			<div id="newsBot">
-				<a href="javascript:0;">确定</a>
-			</div>
-		</div>
-	</header>
+	<%@include file="/commons/header.jsp" %>
 	<div style="height:60px;"></div>
 	<div id="main">
 		<!-- 发布活动 -->
@@ -261,6 +323,7 @@ $(document).ready(function(){
 			<p style="font-family: '隶书';font-size:20px;color:#39c;">有活动要发布？</p>
 			<form id = "publishForm" action="save.nut" method="post">
 				<input type="hidden" id="username" value="${user.username }"/>
+				<input type="hidden" id="userid" value="${user.id }"/>
 				<textarea name="actcontent" id = "activityContent"></textarea>
 				<div style="float:right;color:#FFC09F;height:30px;line-height:30px;">
 					<label>活动类型</label>
@@ -297,9 +360,18 @@ $(document).ready(function(){
 				 <span>发布时间：</span><span>${act.edittime}</span>
 				<div class="wantJoin"><i class=" icon-thumbs-up icon-2x"></i>我要参加</div>
 				<div class="wantCom"><i class="icon-tag icon-2x"></i>我要评论</div>
-				<input type="hidden" value="${act.userid }"/>
+				<input type="hidden" id="actid" value="${act.id }"/>
 				<div style="clear:both;"></div>
-			</div> 
+			</div>
+				<c:forEach items="${act.replylist}" var="reply" >
+				<div class="answer">
+					<p style="color: #39c; font-size: 15px;padding-left:25px;">
+						<span><i class="icon-external-link icon-2x"></i>${reply.username }&nbsp;&nbsp;</span><span>评论:</span>
+					</p>
+					<p style="padding-left: 30px;">${reply.content }</p>
+					<span style="padding-left: 30px;">评论时间：${reply.replytime }</span>
+				</div>
+				</c:forEach>
 			</c:forEach>
 		</div>
 		<div class="dibu" align="center">
@@ -333,10 +405,22 @@ $(document).ready(function(){
 			</c:if>
 			<h6 style="font-size:14px;">第${currentPage}页|共${maxPage }页</h6>
 		</div>
+		<!--评论框-->
+		<div id = "comment">
+			<p style = "font-size: 17px;padding-left: 10px;color: #39c;">发表评论</p>
+			<form id = "commentForm" action = "${base }/base/addReply.nut">
+				<input name = "username" type = "hidden" value = ${user.username }>
+				<input name = "actid" id = "commentInput" type="hidden" value="">
+				<input type="hidden"name="currentPage" value="${currentPage }"/>
+				<textarea name="content" rows="" cols=""></textarea>
+				<div style="text-align:center;padding-top:10px;">
+					<a id = "sure" href = "javascript:;">确认</a>
+					<a id = "quit" href = "javascript:;">取消</a>
+				</div>
+			</form>
+		</div>
 	</div>
-<footer>
-	<a href="javascript:0;">made by me |</a>
-	<a href="">后台管理</a>
-</footer>	
+<%@include file="/commons/footer.jsp" %>	
+<div id="bg"></div>
 </body>
 </html>

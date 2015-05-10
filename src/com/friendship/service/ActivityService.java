@@ -15,6 +15,7 @@ import com.friendship.model.Activity;
  * @author Administrator
  */
 public class ActivityService extends IdNameEntityService<Activity>{
+	
 	public ActivityService(Dao dao){
 		super(dao);
 	}
@@ -52,5 +53,8 @@ public class ActivityService extends IdNameEntityService<Activity>{
 		List<Activity> list = this.query(Cnd.where("userid", "=", id), null);
 		return list.size();
 	}
-
+	
+	public Activity findById(int id){
+		return this.fetch(id);
+	}
 }
