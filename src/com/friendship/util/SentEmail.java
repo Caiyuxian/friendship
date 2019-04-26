@@ -23,8 +23,8 @@ public class SentEmail {
 	 */
 	public static boolean sendEmail(String emailto,String content){
 		String smtphost = "smtp.163.com";		//发送的邮箱服务器
-		String user = "caiyuxian94";			//邮件服务器登录名
-		String password = "enminffkcwauculv";	//邮件服务器密码
+		String user = "";			//邮件服务器登录名
+		String password = "";	//邮件服务器密码
 		String biaoti ="联谊平台系统通知";			//邮件标题
 		String from ="caiyuxian94@163.com";		//发件者地址
 			
